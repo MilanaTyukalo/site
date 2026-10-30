@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BooksAI — найдите книгу по настроению и атмосфере</title>
+  <meta name="description" content="AI-сервис персональных рекомендаций книг: опишите настроение или впечатление, и мы подберём книги.">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="wrap header__bar">
+      <a class="logo" href="#top">
+        <svg class="logo__icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 17c-5-3-12-4-19-3v30c7-1 14 0 19 3 5-3 12-4 19-3V14c-7-1-14 0-19 3z" fill="currentColor"/><path d="M32 17v30" stroke="#EFECDF" stroke-width="3" fill="none"/></svg>
+        <span>BooksAI</span>
+      </a>
+      <nav class="nav" id="mainNav" aria-label="Основная навигация">
+        <a href="#search">Поиск</a>
+        <a href="#popular">Популярное</a>
+        <a href="#steps">Как это работает</a>
+        <a href="#start">Начать</a>
+      </nav>
+      <div class="header__actions">
+        <button class="btn btn--dark btn--small" id="favoritesBtn" type="button">Избранное(<span id="favCount">0</span>)</button>
+        <button class="burger" id="burgerBtn" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainNav"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="hero" id="hero">
+      <div class="wrap hero__grid">
+        <div>
+          <p class="eyebrow">AI-сервис рекомендаций книг</p>
+          <h1 class="hero__title">Найдите книгу по настроению и&nbsp;<em>атмосфере</em></h1>
+          <p class="hero__text">Опишите, что хотите почувствовать, и AI проанализирует эмоции и темы, чтобы подсказать идеальное чтение — не по жанру, а по ощущению.</p>
+          <div class="hero__cta">
+            <a class="btn btn--dark" href="#search">Подобрать книгу ↗</a>
+            <a class="btn btn--ghost" href="#steps">Как это работает</a>
+          </div>
+          <div class="hero__stats">
+            <div><b>8</b><span>книг в подборке</span></div>
+            <div><b>14</b><span>тегов настроения</span></div>
+            <div><b>5–6</b><span>рекомендаций за запрос</span></div>
+          </div>
+        </div>
+        <div class="stack">
+          <img class="stack__a" src="assets/images/covers/dune.jpg" data-book="dune" data-fallback="assets/images/dune.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Дюна»">
+          <img class="stack__c" src="assets/images/covers/percy.jpg" data-book="percy" data-fallback="assets/images/percy.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Перси Джексон и похититель молний»">
+          <img class="stack__b" src="assets/images/covers/hp.jpg" data-book="hp" data-fallback="assets/images/hp.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Гарри Поттер и философский камень»">
+          <p class="badge">Рекомендуется, потому что запрос содержит темы <i>дружбы, магии и взросления</i></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <section class="panel" id="search">
+        <p class="eyebrow">AI-поиск</p>
+        <h2 class="section-title">Опишите книгу, которую хотите прочитать</h2>
+        <p class="lead">Свободный запрос, настроение или любимая книга — и мы подберём похожие.</p>
+
+        <form class="search" id="searchForm" role="search">
+          <div class="search__row">
+            <label class="visually-hidden" for="queryInput">Опишите книгу</label>
+            <input class="search__input" id="queryInput" type="text" autocomplete="off" placeholder="Например: книга с атмосферой осеннего уюта">
+            <button class="btn btn--dark" id="searchBtn" type="submit">Подобрать ↗</button>
+          </div>
+          <div class="search__examples">
+            <span>Примеры:</span>
+            <button class="chip" type="button" data-example="Книга с атмосферой осеннего уюта">Книга с атмосферой осеннего уюта</button>
+            <button class="chip" type="button" data-example="Что-то похожее на Гарри Поттера">Что-то похожее на Гарри Поттера</button>
+            <button class="chip" type="button" data-example="История о сильном персонаже и приключениях">История о сильном персонаже и приключениях</button>
+          </div>
+        </form>
+
+        <div class="tags" id="tags">
+          <h3 class="tags__title">Поиск по тегам</h3>
+          <form class="tags__panel" id="tagsForm" aria-label="Фильтр по тегам">
+          <label class="tag"><input type="checkbox" value="магия"><span>#магия</span></label>
+          <label class="tag"><input type="checkbox" value="школа"><span>#школа</span></label>
+          <label class="tag"><input type="checkbox" value="мифология"><span>#мифология</span></label>
+          <label class="tag"><input type="checkbox" value="космос"><span>#космос</span></label>
+          <label class="tag"><input type="checkbox" value="будущее"><span>#будущее</span></label>
+          <label class="tag"><input type="checkbox" value="философия"><span>#философия</span></label>
+          <label class="tag"><input type="checkbox" value="тайна"><span>#тайна</span></label>
+          <label class="tag"><input type="checkbox" value="приключения"><span>#приключения</span></label>
+          <label class="tag"><input type="checkbox" value="подростки"><span>#подростки</span></label>
+          <label class="tag"><input type="checkbox" value="фантастика"><span>#фантастика</span></label>
+          <label class="tag"><input type="checkbox" value="триллер"><span>#триллер</span></label>
+          <label class="tag"><input type="checkbox" value="антиутопия"><span>#антиутопия</span></label>
+          <label class="tag"><input type="checkbox" value="драма"><span>#драма</span></label>
+          <label class="tag"><input type="checkbox" value="дружба"><span>#дружба</span></label>
+          </form>
+        </div>
+
+        <div class="results" id="results" hidden aria-live="polite">
+          <div class="section-head">
+            <h2 class="section-title" id="resultsTitle">Подборка для вас</h2>
+            <button class="link-btn" id="resetBtn" type="button">Новый поиск</button>
+          </div>
+          <div class="mood" id="moodBox" hidden></div>
+          <div class="cards" id="resultsList"></div>
+        </div>
+      </section>
+
+      <section class="popular" id="popular" style="margin-bottom:70px">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Недавно искали</p>
+            <h2 class="section-title">Популярное сейчас</h2>
+          </div>
+          <button class="link-btn" id="clearHistoryBtn" type="button" hidden>Очистить историю</button>
+        </div>
+        <div class="history" id="historyChips"></div>
+        <div class="tiles" id="recentList">
+          <button class="tile" type="button" data-id="hp">
+            <img class="cover" src="assets/images/covers/hp.jpg" data-book="hp" data-fallback="assets/images/hp.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Гарри Поттер и философский камень»" loading="lazy">
+            <b>Гарри Поттер и философский камень</b><small>Дж. К. Роулинг</small>
+          </button>
+          <button class="tile" type="button" data-id="percy">
+            <img class="cover" src="assets/images/covers/percy.jpg" data-book="percy" data-fallback="assets/images/percy.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Перси Джексон и похититель молний»" loading="lazy">
+            <b>Перси Джексон и похититель молний</b><small>Рик Риордан</small>
+          </button>
+          <button class="tile" type="button" data-id="dune">
+            <img class="cover" src="assets/images/covers/dune.jpg" data-book="dune" data-fallback="assets/images/dune.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Дюна»" loading="lazy">
+            <b>Дюна</b><small>Фрэнк Герберт</small>
+          </button>
+          <button class="tile" type="button" data-id="1984">
+            <img class="cover" src="assets/images/covers/1984.jpg" data-book="1984" data-fallback="assets/images/1984.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «1984»" loading="lazy">
+            <b>1984</b><small>Джордж Оруэлл</small>
+          </button>
+          <button class="tile" type="button" data-id="prince">
+            <img class="cover" src="assets/images/covers/prince.jpg" data-book="prince" data-fallback="assets/images/prince.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Маленький принц»" loading="lazy">
+            <b>Маленький принц</b><small>Антуан де Сент-Экзюпери</small>
+          </button>
+          <button class="tile" type="button" data-id="orient">
+            <img class="cover" src="assets/images/covers/orient.jpg" data-book="orient" data-fallback="assets/images/orient.svg" onerror="this.onerror=null;this.src=this.dataset.fallback" alt="Обложка книги «Убийство в Восточном экспрессе»" loading="lazy">
+            <b>Убийство в Восточном экспрессе</b><small>Агата Кристи</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel" id="steps">
+        <p class="eyebrow">Как это работает</p>
+        <h2 class="section-title">Три шага до новой книги</h2>
+        <ol class="steps__list">
+          <li class="step"><span class="step__num">1</span><h3>Опишите пожелания</h3><p>Напишите настроение, тему или книгу, которая вам понравилась.</p></li>
+          <li class="step"><span class="step__num">2</span><h3>AI анализирует запрос</h3><p>Искусственный интеллект выделяет ключевые темы, эмоции и жанры.</p></li>
+          <li class="step"><span class="step__num">3</span><h3>Получите подборку</h3><p>Мы покажем 5–6 книг и объясним, почему они вам подходят.</p></li>
+        </ol>
+      </section>
+
+      <section class="cta" id="start">
+        <h2>Готовы найти свою следующую книгу?</h2>
+        <p>Опишите настроение — остальное сделает BooksAI.</p>
+        <a class="btn" href="#search">Начать подбор ↗</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__bar">
+      <div><strong>BooksAI</strong>AI-сервис персонализированных рекомендаций книг. Учебный проект.</div>
+      <div>Контакты: <a href="mailto:hello@booksai.example">hello@booksai.example</a></div>
+    </div>
+  </footer>
+
+  <dialog class="modal" id="bookModal" aria-labelledby="modalTitle">
+    <button class="modal__close" id="modalClose" type="button" aria-label="Закрыть">×</button>
+    <div class="modal__body" id="modalBody"></div>
+  </dialog>
+
+  <dialog class="modal" id="favModal" aria-labelledby="favTitle">
+    <button class="modal__close" id="favClose" type="button" aria-label="Закрыть">×</button>
+    <h2 id="favTitle" class="modal__heading">Избранное</h2>
+    <div class="cards cards--single" id="favList"></div>
+  </dialog>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>
